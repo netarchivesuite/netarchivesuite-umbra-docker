@@ -24,15 +24,9 @@ RUN cd publicsuffix-master && python3 setup.py install
 # chromium startup scripts and ensures that whichever you call, chromium is started in a headless Xvfb display
 #
 ADD xvfb-chromium /usr/bin/xvfb-chromium
-RUN ln -fs /usr/bin/xvfb-chromium /usr/bin/google-chrome
-RUN ln -fs /usr/bin/xvfb-chromium /usr/bin/chromium-browser
+RUN chmod 755 /usr/bin/xvfb-chromium
+
 
 RUN pip3 install git+https://github.com/internetarchive/umbra.git
 
-#
-# Create a non-root user, as otherwise chromium complains
-#
-RUN useradd -ms /bin/bash appuser
-USER appuser
-
-CMD umbra --url amqp://guest:guest@activemq:5672/%2f
+CMD umbra -v --executable /usr/bin/xvfb-chromium  --url amqp://guest:guest@activemq:5672/%2f
