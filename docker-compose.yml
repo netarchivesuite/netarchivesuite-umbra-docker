@@ -11,6 +11,15 @@ services:
     - activemq
    depends_on:
     - activemq
+  heritrix:
+   build: heritrix
+   links:
+    - activemq
+   ports:
+    - "18443:8443"
+   depends_on:
+    - activemq
+    - umbra
 
 
     

@@ -29,4 +29,4 @@ RUN chmod 755 /usr/bin/xvfb-chromium
 
 RUN pip3 install git+https://github.com/internetarchive/umbra.git
 
-CMD umbra -v --executable /usr/bin/xvfb-chromium  --url amqp://guest:guest@activemq:5672/%2f
+CMD umbra --executable /usr/bin/xvfb-chromium  --url amqp://guest:guest@activemq:5672/%2f
