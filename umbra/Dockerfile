@@ -35,4 +35,4 @@ RUN pip3 install git+https://github.com/internetarchive/umbra.git
 RUN useradd -ms /bin/bash appuser
 USER appuser
 
-CMD umbra
+CMD umbra --url amqp://guest:guest@activemq:5672/%2f
