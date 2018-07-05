@@ -1,5 +1,7 @@
 #!/bin/bash
 
+## From https://github.com/mark-adams/docker-chromium-xvfb/blob/master/images/base/xvfb-chromium
+
 _kill_procs() {
   kill -TERM $chromium
   wait $chromium
