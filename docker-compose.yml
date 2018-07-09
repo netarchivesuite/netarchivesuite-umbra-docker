@@ -11,6 +11,7 @@ services:
     - activemq
    depends_on:
     - activemq
+   command: ["./wait-for-it.sh", "activemq:5672", "--", "./start.sh"]
   heritrix:
    build: heritrix
    links:
@@ -20,6 +21,8 @@ services:
    depends_on:
     - activemq
     - umbra
+   volumes:
+     - "./warcdata:/warcdata"
 
 
     
