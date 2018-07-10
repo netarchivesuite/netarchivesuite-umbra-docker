@@ -15,7 +15,7 @@ RUN mkdir heritrix/jobs/umbrajob
 RUN mkdir heritrix/jobs/nonumbrajob
 
 ADD umbra.cxml  heritrix/jobs/umbrajob/umbra.cxml
-ADD nonumbra.cxml  heritrix/jobs/umbrajob/nonumbra.cxml
+ADD nonumbra.cxml  heritrix/jobs/nonumbrajob/nonumbra.cxml
 
 
 EXPOSE 8443
