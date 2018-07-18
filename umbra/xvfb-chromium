@@ -26,7 +26,7 @@ export DISPLAY=:99
 echo Starting chromium
 
 echo Running "chromium --no-sandbox $@ &"
-chromium --no-sandbox $@ &
+chromium --no-sandbox  $@ &
 chromium=$!
 
 wait $chromium
