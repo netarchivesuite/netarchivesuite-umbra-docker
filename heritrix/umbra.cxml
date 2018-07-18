@@ -54,7 +54,7 @@ metadata.description=Basic crawl starting with useful defaults
     <prop key="seeds.textSource.value">
      http://www.b.dk
 # URLS HERE
-http://example.example/example
+# http://example.example/example
 
     </prop>
    </props>
@@ -311,9 +311,10 @@ http://example.example/example
  <bean id="extractorSwf" class="org.archive.modules.extractor.ExtractorSWF">
  </bean>
 
-<bean id="umbraBean" class="org.archive.modules.AMQPPublishProcessor">
+<bean id="umbraBean" class="org.archive.modules.AMQPFilteredPublishProcessor">
   <property name="clientId" value="requests"/>
   <property name="amqpUri" value="amqp://guest:guest@activemq:5672/%2f"/>
+  <property name="include" value="^$|.*L" />
  </bean>
  <!-- now, processors are assembled into ordered FetchChain bean -->
  <bean id="fetchProcessors" class="org.archive.modules.FetchChain">

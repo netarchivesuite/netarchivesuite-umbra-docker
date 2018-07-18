@@ -7,7 +7,9 @@ RUN \
   apt-get -y upgrade && \
   apt-get install -y vim wget curl git maven zip
 
-RUN wget -O heritrix.zip https://sbforge.org/nexus/service/local/repositories/snapshots/content/org/archive/heritrix/heritrix/3.3.0-BDB-5.0.x-NAS-1.0-SNAPSHOT/heritrix-3.3.0-BDB-5.0.x-NAS-1.0-20180628.090816-4-dist.zip
+##RUN wget -O heritrix.zip https://sbforge.org/nexus/service/local/repositories/snapshots/content/org/archive/heritrix/heritrix/3.3.0-BDB-5.0.x-NAS-1.0-SNAPSHOT/heritrix-3.3.0-BDB-5.0.x-NAS-1.0-20180628.090816-4-dist.zip
+RUN wget -O heritrix.zip https://sbforge.org/nexus/service/local/repositories/snapshots/content/org/archive/heritrix/heritrix/3.3.0-BDB-5.0.x-NAS-1.0-SNAPSHOT/heritrix-3.3.0-BDB-5.0.x-NAS-1.0-20180718.121616-5-dist.zip
+
 RUN unzip heritrix.zip
 RUN ln -s heritrix-3.3.0-BDB-5.0.x-NAS-1.0-SNAPSHOT heritrix
 

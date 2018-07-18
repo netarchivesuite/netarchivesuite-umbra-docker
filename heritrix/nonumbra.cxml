@@ -54,7 +54,7 @@ metadata.description=Basic crawl starting with useful defaults
     <prop key="seeds.textSource.value">
      http://www.b.dk
 # URLS HERE
-http://example.example/example
+# http://example.example/example
 
     </prop>
    </props>
