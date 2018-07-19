@@ -41,6 +41,12 @@ metadata.operatorContactUrl=http://www.netarkivet.dk
 metadata.jobName=basic
 metadata.description=Basic crawl starting with useful defaults
 
+umbraBean.clientId=MySpecialJobName
+umbraBean.amqpUri=amqp://guest:guest@activemq:5672/%2f
+## The following rule restricts umbra to processing only on seeds or links, leaving embeds and redirects
+## to be handled by the browser itself
+umbraBean.shouldProcessRule.rules[1].regex=^$|.*L
+
 ##..more?..##
    </value>
   </property>
@@ -52,17 +58,48 @@ metadata.description=Basic crawl starting with useful defaults
   <property name="properties">
    <props>
     <prop key="seeds.textSource.value">
-     http://www.b.dk
-# URLS HERE
-# http://example.example/example
-
+     # http://www.b.dk
     </prop>
    </props>
   </property>
  </bean>
 
+ <!--
+ Bean that sends messages (urls) to umbra.
+ -->
+ <bean id="umbraBean" class="org.archive.modules.AMQPPublishProcessor">
+  <property name="clientId" value="[see override]"/>
+  <property name="amqpUri" value="[see override]"/>
+  <property name="shouldProcessRule">
+   <bean class="org.archive.modules.deciderules.DecideRuleSequence">
+    <property name="rules">
+     <list>
+      <bean class="org.archive.modules.deciderules.RejectDecideRule" />
+      <bean class="org.archive.modules.deciderules.HopsPathMatchesRegexDecideRule">
+       <property name="regex" value="[see override]"/>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
+ </bean>
+
+ <!--
+ Bean that receives messages (urls) from umbra and places them in the Heritrix frontier.
+ -->
  <bean class="org.archive.crawler.frontier.AMQPUrlReceiver">
- <property name="amqpUri" value="amqp://guest:guest@activemq:5672/%2f"/>
+  <property name="amqpUri">
+   <bean class="org.springframework.beans.factory.config.PropertyPathFactoryBean">
+          <property name="targetObject" ref="umbraBean"/>
+          <property name="propertyPath" value="amqpUri" />
+         </bean>
+  </property>
+  <property name="queueName">
+      <bean class="org.springframework.beans.factory.config.PropertyPathFactoryBean">
+       <property name="targetObject" ref="umbraBean"/>
+       <property name="propertyPath" value="clientId" />
+      </bean>
+  </property>
  </bean>
 
 
@@ -145,7 +182,7 @@ metadata.description=Basic crawl starting with useful defaults
     <ref bean="acceptSurts" />
     <!-- ...but REJECT those more than a configured link-hop-count from start... -->
     <bean class="org.archive.modules.deciderules.TooManyHopsDecideRule">
-       <property name="maxHops" value="1" />
+       <property name="maxHops" value="2" />
     </bean>
     <!-- ...but ACCEPT those more than a configured link-hop-count from start... -->
     <bean class="org.archive.modules.deciderules.TransclusionDecideRule">
@@ -311,11 +348,7 @@ metadata.description=Basic crawl starting with useful defaults
  <bean id="extractorSwf" class="org.archive.modules.extractor.ExtractorSWF">
  </bean>
 
-<bean id="umbraBean" class="org.archive.modules.AMQPFilteredPublishProcessor">
-  <property name="clientId" value="requests"/>
-  <property name="amqpUri" value="amqp://guest:guest@activemq:5672/%2f"/>
-  <property name="include" value="^$|.*L" />
- </bean>
+
  <!-- now, processors are assembled into ordered FetchChain bean -->
  <bean id="fetchProcessors" class="org.archive.modules.FetchChain">
   <property name="processors">
