@@ -3,7 +3,7 @@ services:
   activemq:
    image: "rabbitmq:3-management"
    ports:
-    - 5672
+    - "8998:5672"
     - "8999:15672"
   umbra:
    build: umbra
