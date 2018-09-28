@@ -1,0 +1,33 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+
+    {
+      "name":"umbra",
+      "image":"239988392120.dkr.ecr.us-east-2.amazonaws.com/produmbra_umbra:latest",
+      "memoryReservation": 512,
+      "links": [
+        "activemq"
+      ],
+      "command": ["./wait-for-it.sh", "activemq:5672", "--", "./start.sh"]
+    },
+    {
+      "name":"activemq",
+      "hostname": "activmq",
+      "image":"rabbitmq:3-management" ,
+      "memoryReservation": 256,
+      "portMappings": [
+        {
+          "hostPort": 5672 ,
+          "containerPort": 5672
+        },
+        {
+          "hostPort": 15672 ,
+          "containerPort": 15672
+        }
+      ]
+    }
+
+
+  ]
+}

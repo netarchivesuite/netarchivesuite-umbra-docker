@@ -7,7 +7,8 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     chromium \
     wget \
-    tar
+    tar \
+    netcat
 
 
 #
