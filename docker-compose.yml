@@ -3,8 +3,8 @@ services:
   activemq:
    image: "rabbitmq:3-management"
    ports:
-    - "8998:5672"
-    - "8999:15672"
+    - ${mq_port}:5672
+    - ${mq_admin_port}:15672
   umbra:
    build: umbra
    links:

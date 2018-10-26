@@ -11,4 +11,7 @@ RabbitMQ is started with the default username and password guest/guest. These ca
 
 Typical usage of this project would be
  1. `docker-compose -f ./netarchivesuite-umbra-docker/docker-compose.yml -p PROD_UMBRA build`  
- 1. `docker-compose -f ./netarchivesuite-umbra-docker/docker-compose.yml -p PROD_UMBRA -d up`
+ 1. `docker-compose -p PROD_UMBRA -f ./netarchivesuite-umbra-docker/docker-compose.yml up -d`
+ 
+ Additionally the ports defined in the .env file can be overridden at runtime e.g.
+ `mq_port=8990 mq_admin_port=8991 docker-compose -p PROD_UMBRA up -d`
