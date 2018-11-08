@@ -1,17 +1,18 @@
 version: "3"
 services:
+
   activemq:
-   image: "rabbitmq:3-management"
-   ports:
+    image: "rabbitmq:3-management"
+    ports:
     - ${mq_port}:5672
     - ${mq_admin_port}:15672
+
   umbra:
-   build: umbra
-   links:
+    build: umbra
+    links:
     - activemq
-   depends_on:
-    - activemq
-   command: ["./wait-for-it.sh", "activemq:5672", "--", "./start.sh"]
+    command: ["wait-for-it.sh activemq:5672 -- start.sh"]
+
 
 
     
