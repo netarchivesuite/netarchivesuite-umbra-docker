@@ -1,0 +1,6 @@
+Bootstrap: docker
+From: rabbitmq:3-management
+Includecmd: no
+
+%startscript
+	docker-entrypoint.sh rabbitmq-server @>> $HOME/rabbitmq.log
